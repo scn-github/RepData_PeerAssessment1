@@ -3,6 +3,7 @@ output:
   html_document:
     keep_md: yes
 ---
+
 Reproducible Research assignment 1
 ===========================================================
 
@@ -32,12 +33,14 @@ for(day in days)
   { 
 	i <- i + 1
 	daydata <- data[data[,2]==days[i],]
-	if(length(daydata[,1])==288){daysteps[i] <- mean(daydata[,1])}else{daysteps[i]<--99}
+	if(length(daydata[,1])==288){daysteps[i] <- sum(daydata[,1])}else{daysteps[i]<--99}
   }
-daysteps
+daysteps[-daysteps==-99] <- NULL
 hist(daysteps)
 meansteps <- mean(daysteps)
 mednsteps <- median(daysteps)
+meansteps
+mednsteps
 ```
 
 In this data set, the average number of steps per day is `r meansteps`, and the median number of steps per day is `r mednsteps`.
@@ -60,7 +63,7 @@ maxinterval <- intervals[avg_steps==maxsteps]
 maxhr <- floor(maxinterval/60)
 maxmin <- (maxinterval/60-maxhr)*60
 ```
-On average, the individual highest activity level (`r maxsteps` steps) occured during 5-minute interval `r maxinterval`, i.e., `r maxhr`:`r maxmin` hrs.
+On average, the individual highest activity level (`r maxsteps/5` steps/min) occured during 5-minute interval `r maxinterval`.
 
 ## Imputing missing values
 
@@ -97,14 +100,16 @@ for(day in days)
   { 
 	i <- i + 1
 	daydata <- newdata[newdata[,2]==days[i],]
-	if(length(daydata[,1])==288){daysteps[i] <- mean(daydata[,1])}else{daysteps[i]<--99}
+	if(length(daydata[,1])==288){daysteps[i] <- sum(daydata[,1])}else{daysteps[i]<--99}
   }
-daysteps
+daysteps[daysteps==-99] <- NULL
 hist(daysteps)
 meansteps <- mean(daysteps)
 mednsteps <- median(daysteps)
+meansteps
+mednsteps
 ```
-In this data set, *now will missing values imputed by substituting the average number of steps taken during the associted 5-minute interval across all days containing data*, the average number of steps per day is `r meansteps`, and the median number of steps per day is `r mednsteps`. Notice that now the mean and median are equal, whereas they were not exactly equal before we imputed the missing data.
+In this data set, *now with missing values imputed by substituting the average number of steps taken during the associted 5-minute interval across all days containing data*, the average number of steps per day is `r meansteps`, and the median number of steps per day is `r mednsteps`. Notice that now the mean and median are equal, whereas they were not exactly equal before we imputed the missing data.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
